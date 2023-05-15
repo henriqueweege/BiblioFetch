@@ -1,0 +1,50 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+HIDE_STEREOTYPE()
+
+Boundary(App, "Console Application", ".NET, C#, MySql"){
+    
+    Boundary(UI, "UI", ""){
+        Container(Processor, "Processor", "", "Processes requests.") 
+        Container(Layout, "Layout", "", "Handles layout design.")    
+        Container(FileReader, "File Reader Services", "", "Reads file.")    
+    }
+    
+    
+    Boundary(Services, "Services",""){
+        
+        
+        Container(Api, "API", "", "Orchestrates operations")
+        Container(Models, "Models", "", "Holds entities model")
+        Container(Repository, "Repository", "", "Handles entities logics.")
+        Container(DataAccess, "DataAccess", "", "Handles database setting and read/write operations.")
+        Container(HttpServices, "HttpServices", "", "Handles HTTP operations.")
+        Container(FileWriterServices, "FileWriterServices", "", "Handles file write operations.")
+        ContainerDb(Cache, "Cache", "", "Stores frequently accessed data")
+    
+    }
+
+    ContainerDb(Database, "Database", "", "Stores entity information")
+}
+
+System_Ext(OpenLibrary, "OpenLibrary API", "")
+System_Ext(ExternalFile, "Input File", "")
+
+Rel(Processor, Layout, "")
+Rel(Processor, Api, "")
+Rel(Processor, FileReader, "")
+Rel(Api, HttpServices, "")
+Rel(Api, FileWriterServices, "")
+Rel(Api, Repository, "")
+Rel(Api, Models, "")
+Rel(Repository, Models, "")
+Rel(FileWriterServices, Models, "")
+Rel(HttpServices, Models, "")
+Rel(HttpServices, OpenLibrary, "")
+Rel(Repository, DataAccess, "")
+Rel(DataAccess, Cache, "")
+Rel(DataAccess, Database, "")
+Rel(DataAccess, Models, "")
+Rel(FileReader, ExternalFile, "")
+
+@enduml

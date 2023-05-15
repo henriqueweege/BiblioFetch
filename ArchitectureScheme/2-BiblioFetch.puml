@@ -1,0 +1,31 @@
+@startuml C4_Elements
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+HIDE_STEREOTYPE()
+
+Person(User, "User", "Provide file to be consumed. Receive data from books.")
+
+Boundary(App, "Console Application", ".NET, C#, MySql"){
+    
+    Boundary(UI, "UI", ""){
+
+        Container(Processor, "Processor", "",  "Responsible for interact with user.")    
+    
+    }
+    
+    
+    Boundary(Services, "Services",""){
+            
+        Container(Api, "API", "",  "Resposible for data processing.")
+    }
+
+    ContainerDb(Database, "Database", "", "Stores entity information")
+}
+
+
+System_Ext(ExternalData, "OpenLibrary API", "")
+
+Rel(User, App, "")
+Rel(Processor, Api, "")
+Rel(Services, Database, "")
+Rel(Services, ExternalData, "")
+@enduml
