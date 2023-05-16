@@ -1,9 +1,7 @@
-﻿using BiblioFetch.Configurations;
-using BiblioFetch.Models;
-using BiblioFetch.Repository;
+﻿using BiblioFetch.Models;
 using BiblioFetch.Repository.Contract;
+using BiblioFetch.ServicesExceptions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 
 namespace BiblioFetch.ServicesApi
@@ -14,44 +12,62 @@ namespace BiblioFetch.ServicesApi
 
         static ServicesApi()
         {
-            ConfigurationHandler.Set();
+            DIHandler.Set();
             ToCreateFile = new StringBuilder();
             ToCreateFile.AppendLine("Row Number, Data Retrival Type, ISBN, Title, Subtitle, AuthorName(s), Number of Pages, Publish Date");
-
         }
 
 
         public static void ProcessData(List<string> isbns)
         {
+            GetBooksInfo(isbns, DIHandler.GetBookRepository());
 
-            GetBooksInfo(isbns, ConfigurationHandler.GetBookRepository());
+            var writer = DIHandler.GetDataWriter();
+            writer.Write(ToCreateFile.ToString());
         }
-        public static bool GetBooksInfo(List<string> isbns, [FromServices] IBookRepository bookRepository)
+
+        private static void GetBooksInfo(List<string> isbns, IBookRepository bookRepository)
         {
             for (var i = 0; i < isbns.Count(); i++)
             {
-
-                var book = bookRepository.GetByIsbn(isbns[i]);
-
-
-                if (book is null)
+                try
                 {
-                    book = bookRepository.Save(BiblioFetch.HttpServices.HttpServices.FetchFromServer(isbns[i]));
+                    var book = bookRepository.GetByIsbn(isbns[i]);
+
+                    if (book is null)
+                    {
+                        book = BiblioFetch.HttpServices.HttpServices.FetchFromServer(isbns[i]);
+                        bookRepository.SaveNoTrack(book);
+                        book.FromServer = Enumerators.EFromServer.Server;
+                    }
+
+                    AddRow(i + 1, book);
                 }
-
-                AddRow(i + 1, book);
-
+                catch (FetchFromServerException ex)
+                {
+                    AddRow(i + 1, ex.Message);
+                }
+                catch (GetByIsbnException ex)
+                {
+                    AddRow(i + 1, ex.Message);
+                }
+                catch (SaveNoTrackException ex)
+                {
+                    AddRow(i + 1, ex.Message);
+                }
             }
-
-            return true;
         }
+        private static void AddRow(int rowNumber, string message)
+        {
 
+            ToCreateFile.AppendLine($"{rowNumber}, {message}, N/A, N/A, N/A, N/A, N/A, N/A");
+        }
         private static void AddRow(int rowNumber, BookModel book)
         {
-            var dataRetrievalType = book.FromServer is true ? "Server" : "Cache";
-            ToCreateFile.AppendLine($"{rowNumber + 1}, {dataRetrievalType}, {book.ISBN}, {book.Title}, {book.Subtitle}, {book.Authors}, {book.NumberOfPages}, {book.PublishDate}");
+            string numberPages = book.NumberOfPages > 0 ? book.NumberOfPages.ToString() : "N/A";
+            string subtitle = book.Subtitle is not null ? book.Subtitle : "N/A";
+            var dataRetrievalType = book.FromServer.ToString();
+            ToCreateFile.AppendLine($"{rowNumber}, {dataRetrievalType}, {book.ISBN}, {book.Title}, {subtitle}, {book.Authors}, {numberPages}, {book.PublishDate}");
         }
-
-
     }
 }

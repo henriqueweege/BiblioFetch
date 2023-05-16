@@ -25,7 +25,7 @@ namespace BiblioFetch.Repository.Base
 
         public T Remove(T entity) => Entity.Remove(entity).Entity;
 
-        public virtual T Save(T entity) => Entity.Add(entity).Entity;
+        public virtual T SaveNoTrack(T entity) => Entity.Add(entity).Entity;
 
         public T Update(T entity) => Entity.Update(entity).Entity;
 

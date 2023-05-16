@@ -9,7 +9,7 @@ namespace BiblioFetch.Repository.Base.Contract
     public interface IReadWriteRepository<T>
     {
         IList<T> GetAll();
-        abstract T Save(T entity);
+        abstract T SaveNoTrack(T entity);
         T Update(T entity);
         T Remove(T entity);
     }

@@ -1,24 +1,39 @@
 ﻿using BiblioFetch.Layout;
-using BiblioFetch.Repository;
-using BiblioFetch.ServicesApi;
-using BiblioFetch.UIFileReaderServices;
+using BiblioFetch.UIExceptions;
 
 namespace BiblioFetch.UIProcessor
 {
-    public static class UI
+    public static class UIProcessor
     {
         public static List<string> ISBN { get; set; }
 
         public static void Begin()
-        
         {
 
             Console.Title = "BiblioFetch";
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-           
             InitialRoutine();
-            FileReadRoutine();
+
+        }
+
+        public static void ProcessFile()
+        {
+            DataReadRoutine();
+            Pages.DataBeignProcessed();
             DataProcessRoutine();
+        }
+
+        public static void End()
+        {
+            FinalRoutine();
+        }
+
+        private static void FinalRoutine()
+        {
+            Pages.FinalMessage();
+            Thread.Sleep(2000);
+
+            Environment.Exit(1);
         }
 
         private static void DataProcessRoutine()
@@ -26,22 +41,23 @@ namespace BiblioFetch.UIProcessor
             BiblioFetch.ServicesApi.ServicesApi.ProcessData(ISBN);
         }
 
-        private static void FileReadRoutine()
+        private static void DataReadRoutine()
         {
             try
             {
                 Pages.InsertFilePath();
                 var filePath = Console.ReadLine();
-                ISBN = FileReader.ReadFile(filePath);
+                var reader = DIHandler.GetFileReader();
+                ISBN = reader.Read(filePath);
 
             }
-            catch (System.IO.FileNotFoundException)
+            catch (DataReaderException ex)
             {
-                Console.WriteLine("Hum... something went wrong reading your file. Could you try again?");
+                Console.WriteLine(ex.Message);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(2000);
                 Console.Clear();
-                FileReadRoutine();
+                DataReadRoutine();
             }
         }
 
@@ -49,20 +65,10 @@ namespace BiblioFetch.UIProcessor
         private static void InitialRoutine()
         {
             Pages.Logo();
-            Thread.Sleep(3000);
+            Thread.Sleep(1000);
             Console.Clear();
             Pages.WelcomePage();
 
-        }
-
-        public static void Print(string text)
-        {
-            Console.WriteLine(text);
-        }
-
-        public static void ReadFile(string filePath)
-        {
-            var x = FileReader.ReadFile(filePath);
         }
     }
 }

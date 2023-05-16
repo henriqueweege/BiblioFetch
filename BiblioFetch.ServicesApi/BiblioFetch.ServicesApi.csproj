@@ -13,9 +13,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BiblioFetch.DataWriter\BiblioFetch.DataWriter.csproj" />
     <ProjectReference Include="..\BiblioFetch.HttpServices\BiblioFetch.HttpServices.csproj" />
     <ProjectReference Include="..\BiblioFetch.Models\BiblioFetch.Models.csproj" />
     <ProjectReference Include="..\BiblioFetch.Repository\BiblioFetch.Repository.csproj" />
+    <ProjectReference Include="..\BiblioFetch.ServicesExceptions\BiblioFetch.ServicesExceptions.csproj" />
   </ItemGroup>
 
 </Project>

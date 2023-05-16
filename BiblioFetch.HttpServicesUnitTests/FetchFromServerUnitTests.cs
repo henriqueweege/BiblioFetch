@@ -17,7 +17,7 @@ namespace BiblioFetch.HttpServicesUnitTests
             //assert
             Assert.Equal(isbn,response.ISBN);
             Assert.Equal(657, response.NumberOfPages);
-            Assert.Equal(true, response.FromServer);
+            Assert.Equal(Enumerators.EFromServer.Server, response.FromServer);
             Assert.Equal("Ronald L. Graham; Donald Knuth; Oren Patashnik; ", response.Authors);
             Assert.Equal("1994", response.PublishDate);
             Assert.Equal("Concrete mathematics", response.Title);

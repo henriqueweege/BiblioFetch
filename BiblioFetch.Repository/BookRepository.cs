@@ -2,6 +2,7 @@
 using BiblioFetch.Models;
 using BiblioFetch.Repository.Base;
 using BiblioFetch.Repository.Contract;
+using BiblioFetch.ServicesExceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BiblioFetch.Repository
@@ -12,23 +13,59 @@ namespace BiblioFetch.Repository
         public IBiblioFetchContext BaseContext { get; set; }
         public DbSet<BookModel> Entity { get; set; }
 
-        public BookRepository(IBiblioFetchContext baseContext):base(baseContext) 
+        private List<BookModel> BooksCache { get; set; } = new List<BookModel>();
+
+
+        public BookRepository(IBiblioFetchContext baseContext) : base(baseContext)
         {
             BaseContext = baseContext;
             Entity = baseContext.Set<BookModel>();
         }
 
-        public BookModel? GetByIsbn(string isbn) => Entity.FirstOrDefault(x => x.ISBN == isbn);
+        internal BookModel? GetByIsbnFromDb(string isbn) => Entity.AsNoTracking().FirstOrDefault(x => x.ISBN == isbn);
 
-        public override BookModel Save(BookModel model) 
+
+        public BookModel? GetByIsbn(string isbn)
         {
-            model.FromServer = false;
-            Entity.Add(model);
-            BaseContext.SaveChanges();
-            model.FromServer = true;
+            try
+            {
+                BookModel? book = null;
 
-            return model;
+                if(BooksCache.Count > 0)
+                {
+                    book = BooksCache.FirstOrDefault(e => e.ISBN == isbn);
+                    if (book is not null)  book.FromServer = Enumerators.EFromServer.Cache;
+                }
 
+                if (book is null)
+                {
+                    book = GetByIsbnFromDb(isbn);
+                    if(book is not null) BooksCache.Add(book);
+                }
+
+                return book;
+            }
+            catch
+            {
+                throw new GetByIsbnException("Something went wrong retrieving book data.");
+            }
+        }
+
+        public void SaveNoTrack(BookModel book)
+        {
+            try
+            {
+
+                Entity.AsNoTracking();
+                book.FromServer = Enumerators.EFromServer.Cache;
+                Entity.Add(book);
+                BooksCache.Add(book);
+                BaseContext.SaveChanges();
+            }
+            catch
+            {
+                throw new SaveNoTrackException("Something went wrong saving book data.");
+            }
         }
     }
 }

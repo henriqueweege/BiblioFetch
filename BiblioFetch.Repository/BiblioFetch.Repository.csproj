@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BiblioFetch.DataAccess\BiblioFetch.DataAccess.csproj" />
+    <ProjectReference Include="..\BiblioFetch.ServicesExceptions\BiblioFetch.ServicesExceptions.csproj" />
   </ItemGroup>
 
 </Project>

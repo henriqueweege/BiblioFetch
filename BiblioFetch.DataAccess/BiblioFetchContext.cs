@@ -14,15 +14,14 @@ namespace BiblioFetch.DataAccess
         }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)
         {
-            //if (EnvironmentVerificator.IsTestEnv())
-            //{
-            //    dbContextOptionsBuilder.UseInMemoryDatabase(databaseName: "BiblioFetchDb");
-            //}
-            //else if (_dbContextOptionsBuilder == null)
-            //{
-            //    dbContextOptionsBuilder.UseMySql((""), ServerVersion.AutoDetect(""));
-            //}
-            dbContextOptionsBuilder.UseMySql(AppSettings.ConnectionString, ServerVersion.AutoDetect(AppSettings.ConnectionString));
+            if (AppSettings.InMemoryDb)
+            {
+                dbContextOptionsBuilder.UseInMemoryDatabase(databaseName: "BiblioFetchDb");
+            }
+            else
+            {
+                dbContextOptionsBuilder.UseMySql(AppSettings.ConnectionString, ServerVersion.AutoDetect(AppSettings.ConnectionString));
+            }
 
         }
 

@@ -7,7 +7,9 @@ Boundary(App, "Console Application", ".NET, C#, MySql"){
     Boundary(UI, "UI", ""){
         Container(Processor, "Processor", "", "Processes requests.") 
         Container(Layout, "Layout", "", "Handles layout design.")    
-        Container(FileReader, "File Reader Services", "", "Reads file.")    
+        Container(DataReader, "Data Reader", "", "Handles data reading.")
+        ContainerDb(UIExceptions, "ServicesExceptions", "", "Holds custom exceptions for error handling.")
+
     }
     
     
@@ -15,12 +17,15 @@ Boundary(App, "Console Application", ".NET, C#, MySql"){
         
         
         Container(Api, "API", "", "Orchestrates operations")
-        Container(Models, "Models", "", "Holds entities model")
+        Container(Models, "Models", "", "Holds entities model.")
+        Container(Enums, "Enumerators", "", "Holds enumarators.")
         Container(Repository, "Repository", "", "Handles entities logics.")
         Container(DataAccess, "DataAccess", "", "Handles database setting and read/write operations.")
         Container(HttpServices, "HttpServices", "", "Handles HTTP operations.")
-        Container(FileWriterServices, "FileWriterServices", "", "Handles file write operations.")
+        Container(DataWriter, "DataWriter", "", "Handles data write operations.")
         ContainerDb(Cache, "Cache", "", "Stores frequently accessed data")
+        ContainerDb(AppSettings, "AppSettings", "", "Holds appsettings.json values.")
+        ContainerDb(ServicesExceptions, "ServicesExceptions", "", "Holds custom exceptions for error handling.")
     
     }
 
@@ -31,20 +36,31 @@ System_Ext(OpenLibrary, "OpenLibrary API", "")
 System_Ext(ExternalFile, "Input File", "")
 
 Rel(Processor, Layout, "")
+Rel(Processor, UIExceptions, "")
+Rel(DataReader, UIExceptions, "")
 Rel(Processor, Api, "")
-Rel(Processor, FileReader, "")
+Rel(Processor, DataReader, "")
 Rel(Api, HttpServices, "")
-Rel(Api, FileWriterServices, "")
+Rel(Api, DataWriter, "")
 Rel(Api, Repository, "")
 Rel(Api, Models, "")
+Rel(Models, Enums, "")
+Rel(Api, Enums, "")
+Rel(Api, ServicesExceptions, "")
+Rel(HttpServices, ServicesExceptions, "")
+Rel(Repository, ServicesExceptions, "")
+Rel(Repository, Enums, "")
 Rel(Repository, Models, "")
-Rel(FileWriterServices, Models, "")
+Rel(DataWriter, Models, "")
+Rel(DataWriter, AppSettings, "")
+Rel(DataAccess, AppSettings, "")
+Rel(DataWriter, AppSettings, "")
 Rel(HttpServices, Models, "")
 Rel(HttpServices, OpenLibrary, "")
 Rel(Repository, DataAccess, "")
 Rel(DataAccess, Cache, "")
 Rel(DataAccess, Database, "")
 Rel(DataAccess, Models, "")
-Rel(FileReader, ExternalFile, "")
+Rel(DataReader, ExternalFile, "")
 
 @enduml

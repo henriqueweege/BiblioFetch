@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BiblioFetch.Models\BiblioFetch.Models.csproj" />
+    <ProjectReference Include="..\BiblioFetch.UIExceptions\BiblioFetch.UIExceptions.csproj" />
   </ItemGroup>
 
 </Project>

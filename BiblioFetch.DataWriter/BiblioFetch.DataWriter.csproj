@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BiblioFetch.AppSettings\BiblioFetch.AppSettings.csproj" />
+  </ItemGroup>
+
 </Project>

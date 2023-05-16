@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BiblioFetch.AppSettings\BiblioFetch.AppSettings.csproj" />
     <ProjectReference Include="..\BiblioFetch.Models\BiblioFetch.Models.csproj" />
+    <ProjectReference Include="..\BiblioFetch.ServicesExceptions\BiblioFetch.ServicesExceptions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace BiblioFetch.Models
+﻿using BiblioFetch.Enumerators;
+
+namespace BiblioFetch.Models
 {
     public class BookModel
     {
@@ -9,7 +11,7 @@
         public string Authors { get; set; }
         public int? NumberOfPages { get; set; }
         public string PublishDate { get; set; }
-        public bool FromServer { get; set; } = true;
+        public EFromServer FromServer { get; set; } = EFromServer.Server;
 
     }
 }

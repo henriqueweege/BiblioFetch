@@ -8,7 +8,9 @@ namespace BiblioFetch.Configurations
         public static string ConnectionString { get; set; }
         public static string ApiUrlRoot { get; set; }
         public static string ApiUrlParameters { get; set; }
-        public static string PathToCreateFile { get; set; }
+        public static string OutputFileName { get; set; }
+        public static bool InMemoryDb { get; set; }
+
         static AppSettings()
         {
             Configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
@@ -22,7 +24,8 @@ namespace BiblioFetch.Configurations
             ConnectionString = Configuration.GetSection("ConnectionString").Value;
             ApiUrlRoot = Configuration.GetSection("ApiUrlRoot").Value;
             ApiUrlParameters = Configuration.GetSection("ApiUrlParameters").Value;
-            PathToCreateFile = Configuration.GetSection("PathToCreateFile").Value;
+            OutputFileName = Configuration.GetSection("OutputFileName").Value;
+            InMemoryDb = bool.Parse(Configuration.GetSection("InMemoryDb").Value);
         }
     }
 }
