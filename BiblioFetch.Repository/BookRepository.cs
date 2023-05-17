@@ -40,7 +40,11 @@ namespace BiblioFetch.Repository
                 if (book is null)
                 {
                     book = GetByIsbnFromDb(isbn);
-                    if(book is not null) BooksCache.Add(book);
+                    if (book is not null)
+                    {
+                        book.FromServer = Enumerators.EFromServer.Cache;
+                        BooksCache.Add(book);
+                    }
                 }
 
                 return book;

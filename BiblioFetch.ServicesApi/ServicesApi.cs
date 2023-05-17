@@ -14,7 +14,6 @@ namespace BiblioFetch.ServicesApi
             DIHandler.Set();
         }
 
-
         public static void ProcessData(List<string> isbns)
         {
             var toCreateFile = new StringBuilder();

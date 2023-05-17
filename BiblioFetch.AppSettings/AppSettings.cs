@@ -18,14 +18,14 @@ namespace BiblioFetch.Configurations
                                               .Build();
             SetAppSettings();
         }
-
+        public static void Set() { }
         private static void SetAppSettings()
         {
             ConnectionString = Configuration.GetSection("ConnectionString").Value;
             ApiUrlRoot = Configuration.GetSection("ApiUrlRoot").Value;
             ApiUrlParameters = Configuration.GetSection("ApiUrlParameters").Value;
             OutputFileName = Configuration.GetSection("OutputFileName").Value;
-            InMemoryDb = bool.Parse(Configuration.GetSection("InMemoryDb").Value);
+            InMemoryDb = Convert.ToBoolean(Configuration.GetSection("InMemoryDb").Value);
         }
     }
 }

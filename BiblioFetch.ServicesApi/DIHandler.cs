@@ -1,4 +1,5 @@
-﻿using BiblioFetch.DataAccess;
+﻿using BiblioFetch.Configurations;
+using BiblioFetch.DataAccess;
 using BiblioFetch.DataAccess.Contract;
 using BiblioFetch.DataWriter;
 using BiblioFetch.DataWriter.Contract;
@@ -26,6 +27,8 @@ namespace BiblioFetch.ServicesApi
                      services.AddSingleton<IDataWriter, FileWriter>();
                  })
                  .Build();
+
+            AppSettings.Set();
         }
 
 
