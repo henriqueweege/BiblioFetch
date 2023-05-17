@@ -9,7 +9,7 @@ namespace BiblioFetch.UIProcessor
 
         public static void Begin()
         {
-
+            DIHandler.Set();
             Console.Title = "BiblioFetch";
             Console.ForegroundColor = ConsoleColor.DarkGreen;
             InitialRoutine();

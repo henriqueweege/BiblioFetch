@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{025343
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BiblioFetch.Models", "..\BiblioFetch.Models\BiblioFetch.Models.csproj", "{3FD0F401-392B-4F07-8F8D-C9F320D1F477}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfrastructureServices", "InfrastructureServices", "{C0BEB62E-CA1B-4605-B5B6-7284318AE687}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{C0BEB62E-CA1B-4605-B5B6-7284318AE687}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{93F4F679-1CBC-4CFE-8F50-1B892ED791C0}"
 EndProject

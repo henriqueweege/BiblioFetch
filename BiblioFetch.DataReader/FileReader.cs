@@ -19,11 +19,11 @@ namespace BiblioFetch.DataReader
             }
             catch (FileNotFoundException ex)
             {
-                throw new DataReaderException("File could not be found, please, try again.");
+                throw new DataReaderException("File could not be found, please, try again.", ex);
             }
             catch (Exception ex)
             {
-                throw new DataReaderException("Something went wrong reading the file. Make sure it is in the right format and try again.");
+                throw new DataReaderException("Something went wrong reading the file. Make sure it is in the right format and try again.", ex);
             }
         }
     }
