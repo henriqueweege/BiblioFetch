@@ -5,6 +5,8 @@
 
 ## General info
  This is a Console Application project designed to read an input file containing ISBN numbers. Using this information, the program checks if the corresponding book is already present in the database/cache. If not, it retrieves the book details from the OpenLibrary API. Subsequently, the program generates an output CSV file that includes the following information for each book: Row Number, Data Retrieval Type, ISBN, Title, Subtitle, Author Name(s), Number of Pages, and Publish Date.
+ 
+**You can find the architectural scheme of the project in the repository.**
 
 ## Tecnologies
 * C#;
