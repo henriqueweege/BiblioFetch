@@ -5,10 +5,10 @@ HIDE_STEREOTYPE()
 Boundary(App, "Console Application", ".NET, C#, MySql"){
     
     Boundary(UI, "UI", ""){
-        Container(Processor, "Processor", "", "Processes requests.") 
+        Container(Processor, "Processor", "", "Processes requests from user.") 
         Container(Layout, "Layout", "", "Handles layout design.")    
         Container(DataReader, "Data Reader", "", "Handles data reading.")
-        ContainerDb(UIExceptions, "ServicesExceptions", "", "Holds custom exceptions for error handling.")
+        Container(UIExceptions, "UIExceptions", "", "Holds custom exceptions for error handling.")
 
     }
     
@@ -16,24 +16,23 @@ Boundary(App, "Console Application", ".NET, C#, MySql"){
     Boundary(Services, "Services",""){
         
         
-        Container(Api, "API", "", "Orchestrates operations")
-        Container(Models, "Models", "", "Holds entities model.")
+        Container(Api, "API", "", "Orchestrates operations.")
+        Container(Models, "Models", "", "Holds entities models.")
         Container(Enums, "Enumerators", "", "Holds enumarators.")
-        Container(Repository, "Repository", "", "Handles entities logics.")
-        Container(DataAccess, "DataAccess", "", "Handles database setting and read/write operations.")
-        Container(HttpServices, "HttpServices", "", "Handles HTTP operations.")
-        Container(DataWriter, "DataWriter", "", "Handles data write operations.")
-        ContainerDb(Cache, "Cache", "", "Stores frequently accessed data")
-        ContainerDb(AppSettings, "AppSettings", "", "Holds appsettings.json values.")
-        ContainerDb(ServicesExceptions, "ServicesExceptions", "", "Holds custom exceptions for error handling.")
+        Container(Repository, "Repository", "", "Handles entities logic, including read/write operations and cache.")
+        Container(DataAccess, "DataAccess", "", "Handles database setting.")
+        Container(HttpServices, "HttpServices", "", "Handles http requests.")
+        Container(DataWriter, "DataWriter", "", "Handles output data writing operations.")
+        Container(ServicesExceptions, "ServicesExceptions", "", "Holds custom exceptions for error handling.")
     
+        ContainerDb(AppSettings, "AppSettings", "", "Holds appsettings.json values.")
     }
 
-    ContainerDb(Database, "Database", "", "Stores entity information")
+    ContainerDb(Database, "Database", "", "Stores entity data.")
 }
 
 System_Ext(OpenLibrary, "OpenLibrary API", "")
-System_Ext(ExternalFile, "Input File", "")
+System_Ext(ExternalData, "Input data", "")
 
 Rel(Processor, Layout, "")
 Rel(Processor, UIExceptions, "")
@@ -54,13 +53,12 @@ Rel(Repository, Models, "")
 Rel(DataWriter, Models, "")
 Rel(DataWriter, AppSettings, "")
 Rel(DataAccess, AppSettings, "")
-Rel(DataWriter, AppSettings, "")
+Rel(HttpServices, AppSettings, "")
 Rel(HttpServices, Models, "")
 Rel(HttpServices, OpenLibrary, "")
 Rel(Repository, DataAccess, "")
-Rel(DataAccess, Cache, "")
 Rel(DataAccess, Database, "")
 Rel(DataAccess, Models, "")
-Rel(DataReader, ExternalFile, "")
+Rel(DataReader, ExternalData, "")
 
 @enduml
